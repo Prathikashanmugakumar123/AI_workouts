@@ -1,0 +1,32 @@
+import numpy as np# image  to array
+from PIL import Image#image read
+img=Image.open("boy.jpg")
+a=np.array(img).reshape(-1,1)
+a
+------------------------------------
+s=np.array([[1,2,3],[4,5,6]])
+s# rows=2 ,columns =3
+------------------------------------
+t=s.reshape(3,2)
+t# row=3,columns=2  2d array
+------------------------------------
+d=s.reshape(-1,1)
+d # 1d array
+------------------------------------
+import pandas as pd # dataset -read,write and also cleaning
+data=pd.read_csv("country_wise_latest.csv")
+data
+--------------------------------------
+import ollama
+
+while True:
+    msg = input("You: ")
+
+    response = ollama.chat(
+        model="phi3:mini",
+        messages=[
+            {"role": "user", "content": msg}
+        ]
+    )
+    print("Bot:", response["message"]["content"])
+------------------------------------------
