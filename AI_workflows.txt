@@ -1,0 +1,141 @@
+pip install pyjokes
+
+import pyjokes
+
+print(pyjokes.get_joke())
+
+
+---------------------------------
+
+import requests
+from PIL import Image
+import matplotlib.pyplot as plt
+
+image_url = "https://picsum.photos/300"
+
+response = requests.get(image_url)
+
+if response.status_code == 200:
+    with open("sample_image.jpg", "wb") as file:
+        file.write(response.content)
+
+    img = Image.open("sample_image.jpg")
+
+    plt.imshow(img)
+    plt.axis("off")
+    plt.show()
+--------------------------------------------
+import emoji
+
+print(emoji.emojize(":grinning_face:"))
+print(emoji.emojize(":red_heart:"))
+print(emoji.emojize(":rocket:"))
+print(emoji.emojize(":robot:"))
+
+-------------------------------------------
+import ollama
+
+while True:
+    msg = input("You: ")
+
+    response = ollama.chat(
+        model="phi3:mini",#ollama version
+        messages=[
+            {"role": "user", "content": msg}#developer's prompt
+        ]
+    )
+    print("Bot:", response["message"]["content"])
+   
+-------------------------------------------
+import tkinter as tk#module for creating frontend
+from tkinter import messagebox
+r=tk.Tk()# initialize function
+r.title("chatbot")#title
+r.geometry("1500x900")#1500 width,900 height
+l=tk.Label(r,text="name")#it visulize name content in frame page
+l.place(x=150,y=200)
+e=tk.Entry(r)
+e.place(x=250,y=200)
+def msg():# action performance
+    messagebox.showinfo("msg","hello")
+    
+b=tk.Button(r,text="click",command=msg)#if i click this but it will perform
+b.place(x=150,y=250)
+r.mainloop()#forntend visualization
+
+-------------------------------------------
+import tkinter as tk# for creating frontend
+from tkinter import scrolledtext#component mainly used for scorlling
+import ollama#fetching answer
+
+def send_message():# it execute user input
+    user_msg = entry.get().strip()#strip is used for removing spce
+
+    if not user_msg:
+        return
+
+    # Display user message in purple
+    chat_area.insert(tk.END, f"You: {user_msg}\n", "user")
+    chat_area.see(tk.END)#tk.End next next one by one finally it
+    #shows answer
+
+    entry.delete(0, tk.END)
+
+    try:#if i didn't get any error try block will be execute
+        response = ollama.chat(
+            model="phi3:mini",
+            messages=[
+                {"role": "user", "content": user_msg}
+            ]
+        )
+
+        bot_msg = response["message"]["content"]#ollama answer
+
+        # Display bot message in green
+        chat_area.insert(tk.END, f"Bot: {bot_msg}\n\n", "bot")
+        chat_area.see(tk.END)#answer showing on chat area bot
+
+    except Exception as e:#if i get any error means
+        #except block will be executed
+        chat_area.insert(tk.END, f"Error: {e}\n\n", "error")
+        chat_area.see(tk.END)
+
+# Main Window
+root = tk.Tk()#tkinter initialize
+root.title("Funny AI Chatbot")#title set
+root.geometry("700x500")#for setting width and hight
+
+# Chat Area -for showing answer from ollama
+chat_area = scrolledtext.ScrolledText(
+    root,
+    wrap=tk.WORD,
+    font=("Arial", 11)
+)
+chat_area.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+# Configure Colors
+chat_area.tag_config("user", foreground="purple", font=("Arial", 11, "bold"))
+chat_area.tag_config("bot", foreground="green")    #font family,font size,style
+chat_area.tag_config("error", foreground="red")
+
+# Entry Box
+entry = tk.Entry(
+    root,
+    font=("Arial", 12),
+    fg="purple"
+)#it is used for typing question
+entry.pack(padx=10, pady=5, fill=tk.X)
+
+# Send Button
+send_btn = tk.Button(
+    root,
+    text="Send",
+    command=send_message,
+    font=("Arial", 11, "bold")
+)# if it activated means it will help to show output for user
+send_btn.pack(pady=5)#plotting component base on padding
+
+# Press Enter to Send
+entry.bind("<Return>", lambda event: send_message())#entry to send answeer in entry book
+root.mainloop()# for visulizing forntend frame
+----------------------------------------------------------
